@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/cards-api/v1")
 public class CardController {
     @Autowired
     private CardService cardService;
@@ -18,7 +17,7 @@ public class CardController {
     @GetMapping(value = "/cards")
     @ResponseStatus(HttpStatus.OK)
     @CrossOrigin(origins = "http://localhost:5173")
-    public ResponseEntity<List<CardDTO>> getCards() {
+    public ResponseEntity<List<CardDTO>> getCards(@RequestHeader("user") String user) {
         return ResponseEntity.ok(cardService.findAll());
     }
 

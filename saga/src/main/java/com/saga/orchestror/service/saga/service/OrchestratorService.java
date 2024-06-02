@@ -3,10 +3,7 @@ package com.saga.orchestror.service.saga.service;
 import com.saga.orchestror.service.saga.client.UserClient;
 import com.saga.orchestror.service.saga.client.CardClient;
 import com.saga.orchestror.service.saga.client.TransactionClient;
-import com.saga.orchestror.service.saga.dtos.AppUserDto;
-import com.saga.orchestror.service.saga.dtos.CardDto;
-import com.saga.orchestror.service.saga.dtos.TransactionDto;
-import com.saga.orchestror.service.saga.dtos.TransactionRequest;
+import com.saga.orchestror.service.saga.dtos.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +20,39 @@ public class OrchestratorService {
     @Autowired
     private TransactionClient transactionClient;
 
+    @Transactional
+    public void orchestrateSignup(RegisteredUserRequest registeredUser) {
+
+        // créer l'utilisateur authentfication username / mdp
+
+        // créer l'utilisateur joueur appuser username / money
+        AppUserDto newUser = new AppUserDto(registeredUser.getUsername(), 1);
+
+        // attribuer 5 cartes à l'utilisateur
+
+
+        try {
+            // Créez l'utilisateur
+            userClient.createUser(newUser);
+
+        } catch (Exception e) {
+            // Effectuez le rollback si nécessaire
+            if (newUser != null) {
+                userClient.deleteUser(newUser.getId());
+            }
+            throw e;
+        }
+    }
+
+
+    /**
+     * entree : userid, cardid
+     * 1* récupérer le prix de la carte
+     * 2* creer l'association de transaction
+     * 3* enlever le prix de l'utilisateur
+     * @param user
+     * @param cardId
+     */
     @Transactional
     public void createUserAndBuyCard(AppUserDto user, Long cardId) {
         AppUserDto createdUser = null;

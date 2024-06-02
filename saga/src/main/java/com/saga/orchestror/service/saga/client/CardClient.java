@@ -17,7 +17,7 @@ public interface CardClient {
     void updateCard(@RequestBody CardDto card);
 
     @GetMapping("/random-cards")
-    ResponseEntity<List<Integer>> getRandomCards(@RequestParam Integer qty);
+    ResponseEntity<List<Long>> getRandomCards(@RequestParam Integer qty);
 
 
 }

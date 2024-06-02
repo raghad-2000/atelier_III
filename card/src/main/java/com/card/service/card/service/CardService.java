@@ -38,13 +38,13 @@ public class CardService {
         return cardDTOList;
     }
 
-    public List<Integer> getRandomCards(int qty) {
+    public List<Long> getRandomCards(int qty) {
         List<Card> cardList = cardRepository.findAll();
-        List<Integer> randomCards = new ArrayList<>();
+        List<Long> randomCards = new ArrayList<>();
         Random randomNumbers = new Random();
         for (int i = 0; i < qty;  i++)
         {
-            randomCards.add(randomNumbers.nextInt(cardList.size()) + 1);
+            randomCards.add(randomNumbers.nextLong(cardList.size()) + 1);
         }
         return randomCards;
     }

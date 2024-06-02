@@ -25,7 +25,7 @@ public class CardController {
     @GetMapping(value = "/random-cards")
     @ResponseStatus(HttpStatus.OK)
     @CrossOrigin(origins = "http://localhost:5173")
-    public ResponseEntity<List<Integer>> getRandomCards(@RequestParam Integer qty) {
+    public ResponseEntity<List<Long>> getRandomCards(@RequestParam Integer qty) {
         return ResponseEntity.ok(cardService.getRandomCards(qty));
     }
 

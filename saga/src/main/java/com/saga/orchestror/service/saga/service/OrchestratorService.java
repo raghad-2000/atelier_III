@@ -32,8 +32,16 @@ public class OrchestratorService {
             // Créez l'utilisateur
             authenticationClient.addUser(registeredUser);
             userClient.createUser(new AppUserDto(registeredUser.getUsername(), 4000));
-            List<Integer> integerList = cardClient.getRandomCards(5).getBody();
-            System.out.println(integerList);
+            AppUserDto appUser = userClient.retrieveUserInfo(registeredUser.getUsername());
+            List<Long> integerList = cardClient.getRandomCards(5).getBody();
+            if (integerList != null)
+            {
+                for (Long i : integerList)
+                {
+                    TransactionRequest transactionRequest = new TransactionRequest(appUser.getId(), i, "buy");
+                    transactionClient.transaction(transactionRequest);
+                }
+            }
         } catch (Exception e) {
 
             throw e;

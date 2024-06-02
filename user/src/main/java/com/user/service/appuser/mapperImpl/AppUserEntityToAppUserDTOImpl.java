@@ -1,4 +1,4 @@
-package mapperImpl;
+package com.user.service.appuser.mapperImpl;
 
 import com.user.service.appuser.dto.AppUserDto;
 import com.user.service.appuser.entity.AppUser;

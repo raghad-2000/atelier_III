@@ -3,7 +3,7 @@ package com.user.service.appuser.service;
 import com.user.service.appuser.dto.AppUserDto;
 import com.user.service.appuser.entity.AppUser;
 import com.user.service.appuser.repository.AppUserRepository;
-import mapperImpl.AppUserEntityToAppUserDTOImpl;
+import com.user.service.appuser.mapperImpl.AppUserEntityToAppUserDTOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

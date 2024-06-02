@@ -1,9 +1,6 @@
 package com.transaction.service.transaction.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +10,10 @@ import lombok.Setter;
 public class CardAssociation {
 
     @Id
+    @GeneratedValue(
+            strategy= GenerationType.AUTO,
+            generator="native"
+    )
     private long cardAssociationId;
 
     private long appUserId;

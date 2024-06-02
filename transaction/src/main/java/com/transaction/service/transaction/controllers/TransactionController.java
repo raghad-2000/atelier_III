@@ -17,14 +17,14 @@ public class TransactionController {
     @PostMapping(value = "/buy")
     @ResponseStatus(HttpStatus.OK)
     @CrossOrigin(origins = "http://localhost:5173")
-    public ResponseEntity<HttpStatus> buyCard(@RequestBody String card, @RequestHeader("user") String username) {
+    public ResponseEntity<HttpStatus> buyCard(@RequestBody String card, @RequestHeader("user") String idUsername) {
         // User will be in header
         // String username = jwtService.extractUsername(token.substring(7));
         JsonObject cardJson = new Gson().fromJson(card, JsonObject.class);
         if (cardJson.get("id") != null) {
             // todo: appel orchestrator
             // ...
-            transactionService.buyCard(username, cardJson.get("id").getAsString());
+            transactionService.buyCard(idUsername, cardJson.get("id").getAsString());
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.internalServerError().build();
@@ -32,10 +32,10 @@ public class TransactionController {
     @PostMapping(value = "/sell")
     @ResponseStatus(HttpStatus.OK)
     @CrossOrigin(origins = "http://localhost:5173")
-    public ResponseEntity<HttpStatus> sellCard(@RequestBody String card, @RequestHeader("user") String username) {
+    public ResponseEntity<HttpStatus> sellCard(@RequestBody String card, @RequestHeader("user") String idUsername) {
         JsonObject cardJson = new Gson().fromJson(card, JsonObject.class);
         if (cardJson.get("id") != null) {
-            transactionService.sellCard(username, cardJson.get("id").getAsString());
+            transactionService.sellCard(idUsername, cardJson.get("id").getAsString());
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.internalServerError().build();

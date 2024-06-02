@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class CardService {
@@ -35,6 +36,17 @@ public class CardService {
             cardDTOList.add(cardDTO);
         }
         return cardDTOList;
+    }
+
+    public List<Integer> getRandomCards(int qty) {
+        List<Card> cardList = cardRepository.findAll();
+        List<Integer> randomCards = new ArrayList<>();
+        Random randomNumbers = new Random();
+        for (int i = 0; i < qty;  i++)
+        {
+            randomCards.add(randomNumbers.nextInt(cardList.size()) + 1);
+        }
+        return randomCards;
     }
 
     private String nameFormatter(String name) {

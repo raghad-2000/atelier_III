@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OrchestratorService {
 
@@ -26,20 +28,12 @@ public class OrchestratorService {
 
     @Transactional
     public void orchestrateSignup(RegisteredUserRequest registeredUser) {
-
-        // créer l'utilisateur authentfication username / mdp
-
-        // créer l'utilisateur joueur appuser username / money
-        AppUserDto newUser = null;
-
-        // attribuer 5 cartes à l'utilisateur
-
-
         try {
             // Créez l'utilisateur
             authenticationClient.addUser(registeredUser);
-            newUser = userClient.createUser(new AppUserDto(registeredUser.getUsername(), 4000));
-
+            userClient.createUser(new AppUserDto(registeredUser.getUsername(), 4000));
+            List<Integer> integerList = cardClient.getRandomCards(5).getBody();
+            System.out.println(integerList);
         } catch (Exception e) {
 
             throw e;

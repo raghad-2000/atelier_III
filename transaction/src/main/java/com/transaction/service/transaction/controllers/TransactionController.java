@@ -1,5 +1,7 @@
 package com.transaction.service.transaction.controllers;
 
+import com.transaction.service.transaction.dtos.UserCardRequest;
+import com.transaction.service.transaction.orchestrator.OrchestratorServiceClient;
 import com.transaction.service.transaction.services.TransactionService;
 import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ public class TransactionController {
 
     @Autowired
     TransactionService transactionService;
+    @Autowired
+    private OrchestratorServiceClient orchestratorServiceClient;
+
     @PostMapping(value = "/buy")
     @ResponseStatus(HttpStatus.OK)
     @CrossOrigin(origins = "http://localhost:5173")
@@ -22,9 +27,10 @@ public class TransactionController {
         // String username = jwtService.extractUsername(token.substring(7));
         JsonObject cardJson = new Gson().fromJson(card, JsonObject.class);
         if (cardJson.get("id") != null) {
-            // todo: appel orchestrator
-            // ...
-            transactionService.buyCard(idUsername, cardJson.get("id").getAsString());
+            //  appel orchestrator
+            UserCardRequest userCardRequest = new UserCardRequest(idUsername, Long.parseLong(cardJson.get("id").getAsString()));
+            orchestratorServiceClient.buyCard(userCardRequest);
+            //transactionService.buyCard(idUsername, cardJson.get("id").getAsString());
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.internalServerError().build();

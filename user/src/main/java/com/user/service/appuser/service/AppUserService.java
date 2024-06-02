@@ -14,6 +14,11 @@ import java.util.Optional;
 public class AppUserService {
     @Autowired
     private AppUserRepository appUserRepository;
+
+    //@Autowired
+    //private CardClient cardClient;
+
+
     private final AppUserEntityToAppUserDTOImpl appUserEntityToAppUserDTO = new AppUserEntityToAppUserDTOImpl();
 
     //private final CardEntityToCardDTOImpl cardEntityToCardDTO  = new CardEntityToCardDTOImpl();;

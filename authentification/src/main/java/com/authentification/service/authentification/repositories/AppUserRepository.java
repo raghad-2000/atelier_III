@@ -1,11 +1,11 @@
 package com.authentification.service.authentification.repositories;
 
-import com.authentification.service.authentification.entities.AppUser;
+import com.authentification.service.authentification.entities.LogUser;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-public interface AppUserRepository extends CrudRepository<AppUser, Integer>
+public interface AppUserRepository extends CrudRepository<LogUser, Integer>
 {
-    Optional<AppUser> findByUserName(String username);
+    Optional<LogUser> findByUserName(String username);
 }

@@ -2,7 +2,7 @@ package com.authentification.service.authentification.controllers;
 
 import com.authentification.service.authentification.dtos.LogInUserDto;
 import com.authentification.service.authentification.dtos.RegisterUserDto;
-import com.authentification.service.authentification.entities.AppUser;
+import com.authentification.service.authentification.entities.LogUser;
 import com.authentification.service.authentification.responses.LoginResponse;
 import com.authentification.service.authentification.services.AuthenticationService;
 import com.authentification.service.authentification.services.JwtService;
@@ -36,7 +36,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LogInUserDto logInUserDto) {
-        AppUser authenticatedUser = authenticationService.authenticate(logInUserDto);
+        LogUser authenticatedUser = authenticationService.authenticate(logInUserDto);
         String jwtToken = jwtService.generateToken(authenticatedUser);
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setToken(jwtToken);
@@ -45,8 +45,8 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<AppUser> signup(@RequestBody RegisterUserDto registerUserDto) {
-        AppUser registeredUser = authenticationService.signup(registerUserDto);
+    public ResponseEntity<LogUser> signup(@RequestBody RegisterUserDto registerUserDto) {
+        LogUser registeredUser = authenticationService.signup(registerUserDto);
         return ResponseEntity.ok(registeredUser);
     }
 }

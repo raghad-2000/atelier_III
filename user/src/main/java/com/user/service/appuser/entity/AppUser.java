@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class AppUser implements UserDetails {
+public class AppUser {
 
     @Id
     @Column(nullable = false)
@@ -25,50 +25,30 @@ public class AppUser implements UserDetails {
     private long id;
 
     @Column(unique = true, length = 100, nullable = false)
-    private String userName;
-    @Column(nullable = false)
-    private String password;
+    private String username;
 
     @Column(nullable = false)
     private float money;
 
-    /**
-    @OneToMany(mappedBy = "appUserId")
-    private List<CardAssociation> cards;
-    **/
     @CreationTimestamp
     @Column(updatable = false)
     private Date createdAt;
 
     public AppUser() {
         this.id = 0;
-        this.password = "";
-        this.money = 4000;
-    }
-    // todo: refacto pour sécuriser le password
-    public AppUser(String username, String password) {
-        this.userName = username;
-        this.password = password;
         this.money = 4000;
     }
 
-    public AppUser(String username, String password, float money) {
-        this.userName = username;
-        this.password = password;
+    public AppUser(String username) {
+        this.username = username;
         this.money = 4000;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+    public AppUser(String username, float money) {
+        this.username = username;
+        this.money = money;
     }
-
-    @Override
-    public String getPassword() {
-        return "";
-    }
-
-    @Override
+    
     public String getUsername() {
         return "";
     }

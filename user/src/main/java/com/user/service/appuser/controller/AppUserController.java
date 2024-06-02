@@ -20,7 +20,7 @@ public class AppUserController {
     //@Autowired
     //private JwtService jwtService;
 
-    @GetMapping(value = "/add")
+    @PostMapping(value = "/add")
     @ResponseStatus(HttpStatus.OK)
     public AppUser addUser(AppUser appUser) {
         return appUserService.addUser(appUser);

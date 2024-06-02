@@ -23,7 +23,7 @@ public class AppUserService {
 
     public AppUserDto retrieveUserInfos(String username) {
         Optional<AppUser> user;
-        user = appUserRepository.findByUserName(username);
+        user = appUserRepository.findByUsername(username);
         if (user.isPresent()) {
             AppUserDto appUserDto = appUserEntityToAppUserDTO.appUserEntityToAppUserDTO(user.get());
             /**
@@ -39,6 +39,6 @@ public class AppUserService {
     }
     public Optional<AppUser> findUserByUserName(String username) {
         return appUserRepository
-                .findByUserName(username);
+                .findByUsername(username);
     }
 }

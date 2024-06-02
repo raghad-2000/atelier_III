@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class AppUser implements UserDetails
+public class LogUser implements UserDetails
 {
     @Id
     @Column(nullable = false)
@@ -33,12 +33,12 @@ public class AppUser implements UserDetails
     @Column(updatable = false)
     private Date createdAt;
 
-    public AppUser() {
+    public LogUser() {
         this.id = 0;
         this.password = "";
     }
 
-    public AppUser(String username, String password) {
+    public LogUser(String username, String password) {
         this.userName = username;
         this.password = password;
     }

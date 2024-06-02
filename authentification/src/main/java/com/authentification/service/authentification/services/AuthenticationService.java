@@ -2,7 +2,7 @@ package com.authentification.service.authentification.services;
 
 import com.authentification.service.authentification.dtos.LogInUserDto;
 import com.authentification.service.authentification.dtos.RegisterUserDto;
-import com.authentification.service.authentification.entities.AppUser;
+import com.authentification.service.authentification.entities.LogUser;
 import com.authentification.service.authentification.repositories.AppUserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,11 +20,11 @@ public class AuthenticationService {
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
     }
-    public AppUser signup(RegisterUserDto registerUserDto) {
-        AppUser appUser = new AppUser(registerUserDto.getUsername(), passwordEncoder.encode(registerUserDto.getPassword()));
-        return appUserRepository.save(appUser);
+    public LogUser signup(RegisterUserDto registerUserDto) {
+        LogUser logUser = new LogUser(registerUserDto.getUsername(), passwordEncoder.encode(registerUserDto.getPassword()));
+        return appUserRepository.save(logUser);
     }
-    public AppUser authenticate(LogInUserDto logInUserDto) {
+    public LogUser authenticate(LogInUserDto logInUserDto) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         logInUserDto.getUsername(),

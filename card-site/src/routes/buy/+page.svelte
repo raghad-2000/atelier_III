@@ -15,7 +15,7 @@
 	}
 	async function buyCard(card: Card) {
 		const token = sessionStorage.getItem('token');
-		const result = await fetch('http://localhost:8080/transaction/buy', {
+		const result = await fetch('http://localhost:8085/buy', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

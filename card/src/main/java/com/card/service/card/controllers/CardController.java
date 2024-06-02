@@ -17,7 +17,7 @@ public class CardController {
     @GetMapping(value = "/cards")
     @ResponseStatus(HttpStatus.OK)
     @CrossOrigin(origins = "http://localhost:5173")
-    public ResponseEntity<List<CardDTO>> getCards(@RequestHeader("user") String user) {
+    public ResponseEntity<List<CardDTO>> getCards() {
         return ResponseEntity.ok(cardService.findAll());
     }
 

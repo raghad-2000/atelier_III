@@ -44,6 +44,7 @@ export async function loginRequest(login: Object, url: string, method: string) {
 		// invalid login
 	} else {
 		sessionStorage.setItem('token', data.token);
+		redirectToUrl('/');
 	}
 }
 

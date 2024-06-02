@@ -9,7 +9,7 @@
 
 	onMount(async () => {
 		const token = sessionStorage.getItem('token');
-		const result = await fetch('http://localhost:8080/user/infos', {
+		const result = await fetch('http://localhost:8085/user/infos', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',

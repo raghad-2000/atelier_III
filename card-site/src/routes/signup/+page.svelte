@@ -5,4 +5,4 @@
 
 <Header />
 
-<Form postUrl={'http://localhost:8080/auth/signup'} isSignUp={true} />
+<Form postUrl={'http://localhost:8085/signup'} isSignUp={true} />

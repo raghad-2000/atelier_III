@@ -3,6 +3,7 @@ package com.authentification.service.authentification.controllers;
 import com.authentification.service.authentification.dtos.LogInUserDto;
 import com.authentification.service.authentification.dtos.RegisterUserDto;
 import com.authentification.service.authentification.entities.LogUser;
+import com.authentification.service.authentification.orchestrator.OrchestratorServiceClient;
 import com.authentification.service.authentification.responses.LoginResponse;
 import com.authentification.service.authentification.services.AuthenticationService;
 import com.authentification.service.authentification.services.JwtService;
@@ -27,6 +28,9 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private OrchestratorServiceClient orchestratorServiceClient;
+
     private final JwtService jwtService;
     private final AuthenticationService authenticationService;
 
@@ -49,7 +53,15 @@ public class AuthController {
     @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/signup")
     public ResponseEntity<LogUser> signup(@RequestBody RegisterUserDto registerUserDto) {
-        LogUser registeredUser = authenticationService.signup(registerUserDto);
-        return ResponseEntity.ok(registeredUser);
+        //LogUser registeredUser = authenticationService.signup(registerUserDto);
+        RegisterUserDto registeredUser = new RegisterUserDto();
+        registeredUser.setUsername("saga");
+        registeredUser.setPassword("password");
+
+        orchestratorServiceClient.orchestrateSignup(registeredUser);
+
+
+        LogUser logUser = new LogUser();
+        return ResponseEntity.ok(logUser);
     }
 }

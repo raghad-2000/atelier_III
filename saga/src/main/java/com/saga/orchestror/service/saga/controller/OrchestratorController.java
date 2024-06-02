@@ -1,6 +1,7 @@
 package com.saga.orchestror.service.saga.controller;
 
 
+import com.saga.orchestror.service.saga.dtos.RegisteredUserRequest;
 import com.saga.orchestror.service.saga.dtos.UserCardRequest;
 import com.saga.orchestror.service.saga.service.OrchestratorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,14 @@ public class OrchestratorController {
 
     @Autowired
     private OrchestratorService orchestratorService;
+
+    @PostMapping("/orchestrateSignup")
+    public void orchestrateSignup(@RequestBody RegisteredUserRequest registeredUser) {
+        // Call card service to create initial cards
+        orchestratorService.orchestrateSignup(registeredUser);
+
+        // Add more service calls if needed
+    }
 
     @PostMapping("/createUserAndBuyCard")
     public void createUserAndBuyCard(@RequestBody UserCardRequest request) {

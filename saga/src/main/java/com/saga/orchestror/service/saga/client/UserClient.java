@@ -10,7 +10,7 @@ public interface UserClient {
     AppUserDto getUserById(@PathVariable("id") Long id);
 
 
-    @PostMapping("/users")
+    @PostMapping("/user/add")
     AppUserDto createUser(@RequestBody AppUserDto user);
 
     @DeleteMapping("/users/{id}")

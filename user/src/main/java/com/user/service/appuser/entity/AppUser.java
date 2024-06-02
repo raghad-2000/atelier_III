@@ -4,12 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Getter
@@ -48,7 +44,7 @@ public class AppUser {
         this.username = username;
         this.money = money;
     }
-    
+
     public String getUsername() {
         return "";
     }

@@ -34,8 +34,7 @@ public class AppUserService {
     }
 
     public AppUserDto retrieveUserInfos(String username) {
-        Optional<AppUser> user;
-        user = appUserRepository.findByUsername(username);
+        Optional<AppUser> user = appUserRepository.findByUsername(username);
         if (user.isPresent()) {
             AppUserDto appUserDto = appUserEntityToAppUserDTO.appUserEntityToAppUserDTO(user.get());
             /**

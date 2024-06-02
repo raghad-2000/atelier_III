@@ -48,9 +48,8 @@
 	let cardsSorted: Card[] = [];
 
 	onMount(async () => {
-		let userInfos = await getUserInfos();
 		const token = sessionStorage.getItem('token');
-		const result = await fetch('http://localhost:8080/cards-api/v1/cards', {
+		const result = await fetch('http://localhost:8085/cards', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -64,12 +63,12 @@
 			const data = await result.json();
 			cardsSorted = data;
 		}
-		
+		let userInfos = await getUserInfos();
 	});
 
 	async function getUserInfos() {
 		const token = sessionStorage.getItem('token');
-		const result = await fetch('http://localhost:8080/user/infos', {
+		const result = await fetch('http://localhost:8085/user/infos', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -81,6 +80,7 @@
 			redirectToUrl('/');
 			return;
 		}
+		console.log(result);
 		const data = await result.json();
 		username = data.username;
 		money = data.money;

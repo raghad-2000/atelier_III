@@ -39,16 +39,14 @@ public class AppUserController {
                 .body("Duplicate id Key");
     }
 
-    /**
+
     @GetMapping(value = "/infos")
     @ResponseStatus(HttpStatus.OK)
     @CrossOrigin(exposedHeaders = "Authorization", origins = "http://localhost:5173")
-    public ResponseEntity<AppUserDto> getUserData(@RequestHeader("Authorization") String token) {
-        String username = jwtService.extractUsername(token.substring(7));
+    public ResponseEntity<AppUserDto> getUserData(@RequestHeader("user") String username) {
         AppUserDto appUserDto = appUserService.retrieveUserInfos(username);
         return ResponseEntity.ok(appUserDto);
     }
-    **/
 
 }
 

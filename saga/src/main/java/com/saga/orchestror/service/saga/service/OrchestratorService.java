@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class OrchestratorService {
 
@@ -34,7 +36,6 @@ public class OrchestratorService {
         try {
             // Créez l'utilisateur
             userClient.createUser(newUser);
-
         } catch (Exception e) {
             // Effectuez le rollback si nécessaire
             if (newUser != null) {
@@ -50,35 +51,32 @@ public class OrchestratorService {
      * 1* récupérer le prix de la carte
      * 2* creer l'association de transaction
      * 3* enlever le prix de l'utilisateur
-     * @param user
-     * @param cardId
+     * @param userCard
      */
     @Transactional
-    public void createUserAndBuyCard(AppUserDto user, Long cardId) {
-        AppUserDto createdUser = null;
-        TransactionDto createdTransaction = null;
+    public void buyCard(UserCardRequest userCard) {
+
+        // récupérer le prix de la carte
+        float cardPrice = cardClient.getCardById(userCard.getCardId()).getPrice();
+        double userMoney = userClient.getUserById(userCard.getUserId()).getMoney();
+
+        // creer l'association de transaction
+        TransactionRequest transactionRequest = new TransactionRequest(userCard.getUserId(), userCard.getCardId());
+
+        //enlever le prix de l'utilisateur
+        double newMoney = userMoney - cardPrice;
+        AppUserDto appUser = userClient.getUserById(userCard.getUserId());
 
         try {
             // Créez l'utilisateur
-            createdUser = userClient.createUser(user);
-
-            // Récupérez la carte par ID
-            CardDto card = cardClient.getCardById(cardId);
-            card.setUserId(createdUser.getId());
-            cardClient.updateCard(card);
-
-            // Achetez la carte
-            TransactionRequest request = new TransactionRequest();
-            request.setUserId(createdUser.getId());
-            request.setCardId(cardId);
-            createdTransaction = transactionClient.buyCard(request);
+            transactionClient.buyCard(transactionRequest);
+            appUser.setMoney(newMoney);
+            userClient.createUser(appUser);
         } catch (Exception e) {
             // Effectuez le rollback si nécessaire
-            if (createdTransaction != null) {
-                transactionClient.rollbackBuy(createdTransaction.getId());
-            }
-            if (createdUser != null) {
-                userClient.deleteUser(createdUser.getId());
+            transactionClient.sellCard(transactionRequest);
+            if (appUser != null) {
+                appUser.setMoney(userMoney);
             }
             throw e;
         }
@@ -86,24 +84,28 @@ public class OrchestratorService {
 
 
     @Transactional
-    public void sellCard(Long userId, Long cardId) {
-        TransactionDto createdTransaction = null;
+    public void sellCard(UserCardRequest userCard) {
+        // récupérer le prix de la carte
+        float cardPrice = cardClient.getCardById(userCard.getCardId()).getPrice();
+        double userMoney = userClient.getUserById(userCard.getUserId()).getMoney();
+
+        // creer l'association de transaction
+        TransactionRequest transactionRequest = new TransactionRequest(userCard.getUserId(), userCard.getCardId());
+
+        //calculer new userMoney + get user to update
+        double newMoney = userMoney + cardPrice;
+        AppUserDto appUser = userClient.getUserById(userCard.getUserId());
 
         try {
-            // Vendez la carte
-            TransactionRequest request = new TransactionRequest();
-            request.setUserId(userId);
-            request.setCardId(cardId);
-            createdTransaction = transactionClient.sellCard(request);
-
-            // Mettez à jour la carte pour enlever l'utilisateur
-            CardDto card = cardClient.getCardById(cardId);
-            card.setUserId(null);
-            cardClient.updateCard(card);
+            // Créez l'utilisateur
+            transactionClient.sellCard(transactionRequest);
+            appUser.setMoney(newMoney);
+            userClient.createUser(appUser);
         } catch (Exception e) {
             // Effectuez le rollback si nécessaire
-            if (createdTransaction != null) {
-                transactionClient.rollbackSell(createdTransaction.getId());
+            transactionClient.buyCard(transactionRequest);
+            if (appUser != null) {
+                appUser.setMoney(userMoney);
             }
             throw e;
         }

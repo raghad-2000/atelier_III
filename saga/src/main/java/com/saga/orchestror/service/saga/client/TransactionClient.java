@@ -16,10 +16,4 @@ public interface TransactionClient {
     @PostMapping("/transactions/sell")
     TransactionDto sellCard(@RequestBody TransactionRequest request);
 
-    @DeleteMapping("/transactions/buy/{id}")
-    void rollbackBuy(@PathVariable("id") Long id);
-
-    @DeleteMapping("/transactions/sell/{id}")
-    void rollbackSell(@PathVariable("id") Long id);
-
 }

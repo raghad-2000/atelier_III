@@ -25,14 +25,14 @@ public class OrchestratorController {
         // Add more service calls if needed
     }
 
-    @PostMapping("/createUserAndBuyCard")
+    @PostMapping("/buyCard")
     public void createUserAndBuyCard(@RequestBody UserCardRequest request) {
-        orchestratorService.createUserAndBuyCard(request.getUser(), request.getCardId());
+        orchestratorService.buyCard(request);
     }
 
     @PostMapping("/sellCard")
     public void sellCard(@RequestBody UserCardRequest request) {
-        orchestratorService.sellCard(request.getUserId(), request.getCardId());
+        orchestratorService.sellCard(request);
     }
 
 }

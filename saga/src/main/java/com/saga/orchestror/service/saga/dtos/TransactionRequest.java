@@ -13,4 +13,9 @@ public class TransactionRequest {
     // Getter pour cardId
     private Long cardId;
 
+    public TransactionRequest(Long userId, Long cardId) {
+        this.userId = userId;
+        this.cardId = cardId;
+    }
+
 }

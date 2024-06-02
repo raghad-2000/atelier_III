@@ -1,5 +1,6 @@
 package com.saga.orchestror.service.saga.service;
 
+import com.saga.orchestror.service.saga.client.AuthenticationClient;
 import com.saga.orchestror.service.saga.client.UserClient;
 import com.saga.orchestror.service.saga.client.CardClient;
 import com.saga.orchestror.service.saga.client.TransactionClient;
@@ -7,8 +8,6 @@ import com.saga.orchestror.service.saga.dtos.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 @Service
 public class OrchestratorService {
@@ -20,6 +19,9 @@ public class OrchestratorService {
     private CardClient cardClient;
 
     @Autowired
+    private AuthenticationClient authenticationClient;
+
+    @Autowired
     private TransactionClient transactionClient;
 
     @Transactional
@@ -28,19 +30,18 @@ public class OrchestratorService {
         // créer l'utilisateur authentfication username / mdp
 
         // créer l'utilisateur joueur appuser username / money
-        AppUserDto newUser = new AppUserDto(registeredUser.getUsername(), 1);
+        AppUserDto newUser = null;
 
         // attribuer 5 cartes à l'utilisateur
 
 
         try {
             // Créez l'utilisateur
-            userClient.createUser(newUser);
+            authenticationClient.addUser(registeredUser);
+            newUser = userClient.createUser(new AppUserDto(registeredUser.getUsername(), 4000));
+
         } catch (Exception e) {
-            // Effectuez le rollback si nécessaire
-            if (newUser != null) {
-                userClient.deleteUser(newUser.getId());
-            }
+
             throw e;
         }
     }

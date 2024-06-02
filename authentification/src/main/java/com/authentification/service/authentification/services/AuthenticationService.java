@@ -20,7 +20,7 @@ public class AuthenticationService {
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
     }
-    public LogUser signup(RegisterUserDto registerUserDto) {
+    public LogUser addUser(RegisterUserDto registerUserDto) {
         LogUser logUser = new LogUser(registerUserDto.getUsername(), passwordEncoder.encode(registerUserDto.getPassword()));
         return appUserRepository.save(logUser);
     }

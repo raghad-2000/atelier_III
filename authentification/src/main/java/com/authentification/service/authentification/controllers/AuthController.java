@@ -53,15 +53,16 @@ public class AuthController {
     @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/signup")
     public ResponseEntity<LogUser> signup(@RequestBody RegisterUserDto registerUserDto) {
-        //LogUser registeredUser = authenticationService.signup(registerUserDto);
-        RegisterUserDto registeredUser = new RegisterUserDto();
-        registeredUser.setUsername("saga");
-        registeredUser.setPassword("password");
 
-        orchestratorServiceClient.orchestrateSignup(registeredUser);
+        orchestratorServiceClient.orchestrateSignup(registerUserDto);
 
+        return ResponseEntity.ok().build();
+    }
 
-        LogUser logUser = new LogUser();
+    @CrossOrigin(origins = "http://localhost:5173")
+    @PostMapping("/adduser")
+    public ResponseEntity<LogUser> adduser(@RequestBody RegisterUserDto registerUserDto) {
+        LogUser logUser = authenticationService.addUser(registerUserDto);
         return ResponseEntity.ok(logUser);
     }
 }

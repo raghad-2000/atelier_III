@@ -15,4 +15,7 @@ public interface UserClient {
 
     @DeleteMapping("/users/{id}")
     void deleteUser(@PathVariable("id") Long id);
+
+    @GetMapping("/user/infos")
+    AppUserDto retrieveUserInfo(@RequestHeader("user") String username);
 }

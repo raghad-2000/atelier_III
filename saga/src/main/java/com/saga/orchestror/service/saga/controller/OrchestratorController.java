@@ -1,8 +1,9 @@
 package com.saga.orchestror.service.saga.controller;
 
 
+import com.saga.orchestror.service.saga.dtos.OrchestratorUserCardRequest;
 import com.saga.orchestror.service.saga.dtos.RegisteredUserRequest;
-import com.saga.orchestror.service.saga.dtos.UserCardRequest;
+import com.saga.orchestror.service.saga.dtos.TransactionRequest;
 import com.saga.orchestror.service.saga.service.OrchestratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,13 +27,18 @@ public class OrchestratorController {
     }
 
     @PostMapping("/buyCard")
-    public void createUserAndBuyCard(@RequestBody UserCardRequest request) {
-        orchestratorService.buyCard(request);
+    public void buyCard(@RequestBody OrchestratorUserCardRequest orchestratorUserCardRequest) {
+        orchestratorService.buyCard(orchestratorUserCardRequest);
     }
 
     @PostMapping("/sellCard")
-    public void sellCard(@RequestBody UserCardRequest request) {
-        orchestratorService.sellCard(request);
+    public void sellCard(@RequestBody OrchestratorUserCardRequest orchestratorUserCardRequest) {
+        orchestratorService.sellCard(orchestratorUserCardRequest);
+    }
+
+    @PostMapping("/getUserWithCards")
+    public void getUserWithCards(@RequestBody String username) {
+        orchestratorService.getUserWithCards(username);
     }
 
 }

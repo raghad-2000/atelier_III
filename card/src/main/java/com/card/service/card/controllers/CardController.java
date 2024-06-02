@@ -1,6 +1,7 @@
 package com.card.service.card.controllers;
 
 import com.card.service.card.dto.CardDTO;
+import com.card.service.card.entities.Card;
 import com.card.service.card.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,14 @@ public class CardController {
     public ResponseEntity<List<Integer>> getRandomCards(@RequestParam Integer qty) {
         return ResponseEntity.ok(cardService.getRandomCards(qty));
     }
+
+    @GetMapping(value = "/card/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @CrossOrigin(origins = "http://localhost:5173")
+    public ResponseEntity<Card> getCard(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(cardService.getCard(id).get());
+    }
+
 
 
 }

@@ -46,32 +46,33 @@ public class OrchestratorService {
      * 1* récupérer le prix de la carte
      * 2* creer l'association de transaction
      * 3* enlever le prix de l'utilisateur
-     * @param userCard
+     * @param orchestratorUserCardRequest
      */
     @Transactional
-    public void buyCard(UserCardRequest userCard) {
+    public void buyCard(OrchestratorUserCardRequest orchestratorUserCardRequest) {
 
         // récupérer le prix de la carte
-        float cardPrice = cardClient.getCardById(userCard.getCardId()).getPrice();
-        double userMoney = userClient.getUserById(userCard.getUserId()).getMoney();
+        CardDto card = cardClient.getCardById(orchestratorUserCardRequest.getCardId());
+        AppUserDto appUser = userClient.retrieveUserInfo(orchestratorUserCardRequest.getUserName());
+
+        // todo: handle error
 
         // creer l'association de transaction
-        TransactionRequest transactionRequest = new TransactionRequest(userCard.getUserId(), userCard.getCardId());
+
+        TransactionRequest transactionRequest = new TransactionRequest(appUser.getId(), card.getId(), "buy");
 
         //enlever le prix de l'utilisateur
-        double newMoney = userMoney - cardPrice;
-        AppUserDto appUser = userClient.getUserById(userCard.getUserId());
-
+        double newMoney = appUser.getMoney() - card.getPrice();
         try {
-            // Créez l'utilisateur
-            transactionClient.buyCard(transactionRequest);
+            transactionClient.transaction(transactionRequest);
             appUser.setMoney(newMoney);
             userClient.createUser(appUser);
         } catch (Exception e) {
             // Effectuez le rollback si nécessaire
-            transactionClient.sellCard(transactionRequest);
+            transactionRequest.setType("sell");
+            transactionClient.transaction(transactionRequest);
             if (appUser != null) {
-                appUser.setMoney(userMoney);
+                appUser.setMoney(appUser.getMoney());
             }
             throw e;
         }
@@ -79,28 +80,30 @@ public class OrchestratorService {
 
 
     @Transactional
-    public void sellCard(UserCardRequest userCard) {
+    public void sellCard(OrchestratorUserCardRequest orchestratorUserCardRequest) {
         // récupérer le prix de la carte
-        float cardPrice = cardClient.getCardById(userCard.getCardId()).getPrice();
-        double userMoney = userClient.getUserById(userCard.getUserId()).getMoney();
+
+        CardDto card = cardClient.getCardById(orchestratorUserCardRequest.getCardId());
+        AppUserDto appUser = userClient.retrieveUserInfo(orchestratorUserCardRequest.getUserName());
 
         // creer l'association de transaction
-        TransactionRequest transactionRequest = new TransactionRequest(userCard.getUserId(), userCard.getCardId());
+        TransactionRequest transactionRequest = new TransactionRequest(appUser.getId(), card.getId(), "sell");
 
         //calculer new userMoney + get user to update
-        double newMoney = userMoney + cardPrice;
-        AppUserDto appUser = userClient.getUserById(userCard.getUserId());
+        double newMoney = appUser.getMoney() + card.getPrice();
+
 
         try {
             // Créez l'utilisateur
-            transactionClient.sellCard(transactionRequest);
+            transactionClient.transaction(transactionRequest);
             appUser.setMoney(newMoney);
             userClient.createUser(appUser);
         } catch (Exception e) {
             // Effectuez le rollback si nécessaire
-            transactionClient.buyCard(transactionRequest);
+            transactionRequest.setType("buy");
+            transactionClient.transaction(transactionRequest);
             if (appUser != null) {
-                appUser.setMoney(userMoney);
+                appUser.setMoney(appUser.getMoney());
             }
             throw e;
         }

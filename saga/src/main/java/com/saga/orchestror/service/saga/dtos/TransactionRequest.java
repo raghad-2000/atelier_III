@@ -6,16 +6,15 @@ import lombok.Setter;
 @Setter
 @Getter
 public class TransactionRequest {
-    // Setter pour userId
-    // Getter pour userId
-    private Long userId;
-    // Setter pour cardId
-    // Getter pour cardId
-    private Long cardId;
 
-    public TransactionRequest(Long userId, Long cardId) {
+    private String type;
+    private Long cardId;
+    private Long userId;
+
+    public TransactionRequest(Long userId, Long cardId, String type) {
         this.userId = userId;
         this.cardId = cardId;
+        this.type = type;
     }
 
 }

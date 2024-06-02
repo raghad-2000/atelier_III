@@ -15,7 +15,7 @@ public class AppUserEntityToAppUserDTOImpl implements AppUserEntityToAppUserDTO 
     @Override
     public AppUserDto appUserEntityToAppUserDTO(AppUser appUser) {
         AppUserDto appUserDto = new AppUserDto();
-
+        appUserDto.setId(appUser.getId());
         appUserDto.setUsername(appUser.getUsername());
         appUserDto.setMoney(appUser.getMoney());
         //appUserDto.setCards(new ArrayList<>());

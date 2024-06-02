@@ -22,7 +22,7 @@ public class CardService {
     public Card addCard(Card card) {
         return cardRepository.save(card);
     }
-    public Optional<Card> getCard(int id) {
+    public Optional<Card> getCard(long id) {
         return cardRepository.findById(id);
     }
     public List<Card> findCard(String name) {

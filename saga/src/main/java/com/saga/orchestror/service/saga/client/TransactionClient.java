@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "transaction")
 public interface TransactionClient {
-    @PostMapping("/transactions/buy")
-    TransactionDto buyCard(@RequestBody TransactionRequest request);
+    @PostMapping("/transaction")
+    TransactionDto transaction(@RequestBody TransactionRequest request);
 
-    @PostMapping("/transactions/sell")
-    TransactionDto sellCard(@RequestBody TransactionRequest request);
+
 
 }

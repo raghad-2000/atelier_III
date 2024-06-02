@@ -10,7 +10,7 @@ import java.util.List;
 
 @FeignClient(name = "card")
 public interface CardClient {
-    @GetMapping("/cards/{id}")
+    @GetMapping("/card/{id}")
     CardDto getCardById(@PathVariable("id") Long id);
 
     @PutMapping("/cards/{id}")
@@ -18,4 +18,6 @@ public interface CardClient {
 
     @GetMapping("/random-cards")
     ResponseEntity<List<Integer>> getRandomCards(@RequestParam Integer qty);
+
+
 }

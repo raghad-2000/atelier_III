@@ -1,4 +1,4 @@
-package com.transaction.service.transaction.dtos;
+package com.saga.orchestror.service.saga.dtos;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,11 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public class UserCardRequest {
+public class OrchestratorUserCardRequest {
     private String userName;
     private Long cardId;
 
-    public UserCardRequest(String userName, Long cardId) {
+    public OrchestratorUserCardRequest(String userName, Long cardId) {
         this.userName = userName;
         this.cardId = cardId;
     }

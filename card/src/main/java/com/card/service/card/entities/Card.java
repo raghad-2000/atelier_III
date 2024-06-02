@@ -39,7 +39,7 @@ public class Card {
         this.hp = 0;
         this.price = 0;
     }
-    public Card(int id, String name, String description, String affinity, String family, float energy, float hp, float price, float rarity, String url) {
+    public Card(long id, String name, String description, String affinity, String family, float energy, float hp, float price, float rarity, String url) {
         this.palId = id;
         this.name = name;
         this.description = description;

@@ -32,6 +32,7 @@ public class AppUser {
 
     public AppUser() {
         this.id = 0;
+        this.username = "username";
         this.money = 4000;
     }
 

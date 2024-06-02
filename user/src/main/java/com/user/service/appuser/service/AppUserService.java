@@ -7,6 +7,7 @@ import com.user.service.appuser.mapperImpl.AppUserEntityToAppUserDTOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
 @Service
@@ -18,7 +19,13 @@ public class AppUserService {
     //private final CardEntityToCardDTOImpl cardEntityToCardDTO  = new CardEntityToCardDTOImpl();;
 
     public AppUser addUser(AppUser user) {
-        return appUserRepository.save(user);
+        try {
+            return appUserRepository.save(user);
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            return null;
+        }
+
     }
 
     public AppUserDto retrieveUserInfos(String username) {

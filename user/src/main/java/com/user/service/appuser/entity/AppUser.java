@@ -44,8 +44,4 @@ public class AppUser {
         this.username = username;
         this.money = money;
     }
-
-    public String getUsername() {
-        return "";
-    }
 }

@@ -1,12 +1,10 @@
-package com.saga.orchestror.service.saga.dtos;
-
+package com.user.service.appuser.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-
 public class CardDto {
     private Long id;
     private String name;

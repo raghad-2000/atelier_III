@@ -1,8 +1,10 @@
 package com.user.service.appuser.controller;
 import com.user.service.appuser.dto.AppUserDto;
+import com.user.service.appuser.dto.AppUserDtoWithCards;
 import com.user.service.appuser.entity.AppUser;
 import com.user.service.appuser.mapper.AppUserEntityToAppUserDTO;
 import com.user.service.appuser.mapperImpl.AppUserEntityToAppUserDTOImpl;
+import com.user.service.appuser.orchestrator.OrchestratorServiceClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +23,9 @@ public class AppUserController {
     private AppUserService appUserService;
 
 
-    //@Autowired
-    //private TransactionService transactionService;
+    @Autowired
+    private OrchestratorServiceClient orchestratorServiceClient;
 
-    //@Autowired
-    //private JwtService jwtService;
 
     @PostMapping(value = "/add")
     @ResponseStatus(HttpStatus.OK)
@@ -46,6 +46,14 @@ public class AppUserController {
     public ResponseEntity<AppUserDto> getUserData(@RequestHeader("user") String username) {
         AppUserDto appUserDto = appUserService.retrieveUserInfos(username);
         return ResponseEntity.ok(appUserDto);
+    }
+    @GetMapping(value = "/cards")
+    @ResponseStatus(HttpStatus.OK)
+    @CrossOrigin(exposedHeaders = "Authorization", origins = "http://localhost:5173")
+    public ResponseEntity<AppUserDtoWithCards> getUserWithCards(@RequestHeader("user") String username) {
+        AppUserDto appUserDto = appUserService.retrieveUserInfos(username);
+       AppUserDtoWithCards appUserDtoWithCards = orchestratorServiceClient.getUserWithCards(appUserDto);
+        return ResponseEntity.ok(appUserDtoWithCards);
     }
 
 }

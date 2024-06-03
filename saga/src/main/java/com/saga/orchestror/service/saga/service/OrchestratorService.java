@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -115,6 +116,20 @@ public class OrchestratorService {
             }
             throw e;
         }
+    }
+    @Transactional
+    public AppUserDtoWithCards getUserWithCards(AppUserDto appUser) {
+        // 1 find ALL transaction by user ID
+        // 2 For each transaction, find card with cardClient
+        // 3 return new AppUserDtoWithCards
+
+        List<TransactionDto> transactionList = transactionClient.getTransactionById(appUser.getId());
+        List <CardDto> cards = new ArrayList<>();
+        for(TransactionDto transaction: transactionList ) {
+            cards.add(cardClient.getCardById(transaction.getCardId()));
+            cards.get(cards.size()-1).setQuantity(transaction.getQuantity());
+        }
+        return new AppUserDtoWithCards(appUser.getUsername(), appUser.getMoney(), cards);
     }
 
 }

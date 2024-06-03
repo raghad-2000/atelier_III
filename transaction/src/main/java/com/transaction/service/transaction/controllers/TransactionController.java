@@ -1,5 +1,6 @@
 package com.transaction.service.transaction.controllers;
 
+import com.transaction.service.transaction.dtos.CardAssociationDto;
 import com.transaction.service.transaction.dtos.OrchestratorUserCardRequest;
 import com.transaction.service.transaction.dtos.TransactionRequest;
 import com.transaction.service.transaction.orchestrator.OrchestratorServiceClient;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+
+import javax.naming.ldap.SortResponseControl;
+import java.util.List;
 
 @RestController
 public class TransactionController {
@@ -35,12 +39,12 @@ public class TransactionController {
     @PostMapping(value = "/sell")
     @ResponseStatus(HttpStatus.OK)
     @CrossOrigin(origins = "http://localhost:5173")
-    public ResponseEntity<HttpStatus> sellCard(@RequestBody String card, @RequestHeader("user") String username) {
+    public ResponseEntity<String> sellCard(@RequestBody String card, @RequestHeader("user") String username) {
         JsonObject cardJson = new Gson().fromJson(card, JsonObject.class);
         if (cardJson.get("id") != null) {
             // todo: handle error
             orchestratorServiceClient.sellCard(new OrchestratorUserCardRequest(username, Long.parseLong(cardJson.get("id").getAsString())));
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(card);
         }
         return ResponseEntity.internalServerError().build();
     }
@@ -57,6 +61,13 @@ public class TransactionController {
             transactionService.sellCard(transactionRequest.getUserId(), transactionRequest.getCardId());
         }
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/findTransactionById/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @CrossOrigin(origins = "http://localhost:5173")
+    List<CardAssociationDto> getTransactionById(@PathVariable("id") Long id) {
+        return transactionService.findCardAssociationByUserId(id);
     }
 
 

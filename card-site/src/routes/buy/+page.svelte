@@ -24,7 +24,7 @@
 			body: JSON.stringify(card)
 		});
 		document.getElementById('my_modal_1').showModal();
-
+		console.log(result.status);
 		switch (result.status) {
 			case 401:
 				sessionStorage.clear();

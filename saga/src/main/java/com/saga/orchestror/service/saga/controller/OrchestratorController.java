@@ -1,11 +1,10 @@
 package com.saga.orchestror.service.saga.controller;
 
 
-import com.saga.orchestror.service.saga.dtos.OrchestratorUserCardRequest;
-import com.saga.orchestror.service.saga.dtos.RegisteredUserRequest;
-import com.saga.orchestror.service.saga.dtos.TransactionRequest;
+import com.saga.orchestror.service.saga.dtos.*;
 import com.saga.orchestror.service.saga.service.OrchestratorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,8 +36,9 @@ public class OrchestratorController {
     }
 
     @PostMapping("/getUserWithCards")
-    public void getUserWithCards(@RequestBody String username) {
-        orchestratorService.getUserWithCards(username);
+    public ResponseEntity<AppUserDtoWithCards> getUserWithCards(@RequestBody AppUserDto appUser) {
+        AppUserDtoWithCards appUserDtoWithCards = orchestratorService.getUserWithCards(appUser);
+        return ResponseEntity.ok(appUserDtoWithCards);
     }
 
 }

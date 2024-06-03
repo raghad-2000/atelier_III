@@ -48,7 +48,7 @@
 
 	onMount(async () => {
 		const token = sessionStorage.getItem('token');
-		const result = await fetch('http://localhost:8085/user/infos', {
+		const result = await fetch('http://localhost:8085/user/cards', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -61,6 +61,7 @@
 			return;
 		}
 		const data = await result.json();
+		console.log(data);
 		userCards = data.cards;
 		username = data.username;
 		money = data.money;
@@ -71,7 +72,7 @@
 		console.log(card);
 		let count = 0;
 		userCards.forEach((item) => {
-			if (item.card.palId === card.palId) {
+			if (item.id === card.id) {
 				if (item.quantity - 1 <= 0) {
 					// delete card
 					userCards.splice(count, 1);
@@ -94,7 +95,7 @@
 <div class="card-wrapper">
 	<div class="gallerie">
 		{#each userCards as card}
-			<CardPalSell card={card.card} quantity={card.quantity} />
+			<CardPalSell bind:card bind:quantity={card.quantity} />
 		{:else}
 			<!-- si 0 cartes found -->
 			<span class="loading loading-spinner loading-lg"></span>

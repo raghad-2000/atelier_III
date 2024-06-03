@@ -2,11 +2,10 @@
 	import { getContext } from 'svelte';
 	import type { Card } from '../models/Card';
 	// export permet de définir l'attribut depuis un composant parent.
-	export let card: Card;
+	export let card: any;
 	export let quantity: number;
 
 	const { sellCard } = getContext('sell');
-
 </script>
 
 <div class="card w-96 bg-base-100 shadow-xl card-wrapper">
@@ -19,7 +18,8 @@
 
 		<p>{card.description}</p>
 		<div class="card-actions justify-end">
-			<button class="btn btn-primary" on:click={() => sellCard(card)}>Sell for {card.price}$</button>
+			<button class="btn btn-primary" on:click={() => sellCard(card)}>Sell for {card.price}$</button
+			>
 		</div>
 	</div>
 </div>

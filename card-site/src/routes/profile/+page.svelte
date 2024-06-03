@@ -9,7 +9,7 @@
 
 	onMount(async () => {
 		const token = sessionStorage.getItem('token');
-		const result = await fetch('http://localhost:8085/user/infos', {
+		const result = await fetch('http://localhost:8085/user/cards', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -29,7 +29,7 @@
 <div class="card-wrapper">
 	<div class="gallerie">
 		{#each userCards as card}
-			<CardPalInfo card={card.card} quantity={card.quantity} />
+			<CardPalInfo {card} quantity={card.quantity} />
 		{:else}
 			<!-- si 0 cartes found -->
 			<span>No cards found...</span>
